@@ -1,0 +1,183 @@
+Constructor Overloading in Java with examples
+
+BY CHAITANYA
+
+Like methods, constructors can also be overloaded. We will see constructor overloading with the help of an example using this() and parameterized constructor. Before we got through the source code and examples lets discuss why we need to overload a constructor:
+
+Constructor overloading is way of having more than one constructor which does different-2 tasks. For e.g. Vector class has 4 types of constructors. If you do not want to specify the initial capacity and capacity increment then you can simply use default constructor of Vector class like this Vector v = new Vector(); however if you need to specify the capacity and increment then you call the parameterized constructor with two int args like this: Vector v= new Vector(10, 5);
+
+You must have understood the need to overloading. Lets see how to overload a constructor with the help of below example program:
+
+package com.chaitu.core.day1;
+public class StudentData
+{
+   private int stuID;
+   private String stuName;
+   private int stuAge;
+   StudentData()
+   {
+       //Default constructor
+       stuID = 100;
+       stuName = "New Student";
+       stuAge = 18;
+   }
+   StudentData(int num1, String str, int num2)
+   {
+       //Parameterized constructor
+       stuID = num1;
+       stuName = str;
+       stuAge = num2;
+   }
+   //Getter and setter methods
+   public int getStuID() {
+       return stuID;
+   }
+   public void setStuID(int stuID) {
+       this.stuID = stuID;
+   }
+   public String getStuName() {
+       return stuName;
+   }
+   public void setStuName(String stuName) {
+       this.stuName = stuName;
+   }
+   public int getStuAge() {
+       return stuAge;
+   }
+   public void setStuAge(int stuAge) {
+       this.stuAge = stuAge;
+   }
+}
+
+class TestOverloading
+{
+   public static void main(String args[])
+   {
+       //This object creation would call the default constructor
+       StudentData myobj = new StudentData();
+       System.out.println("Student Name is: "+myobj.getStuName());
+       System.out.println("Student Age is: "+myobj.getStuAge());
+       System.out.println("Student ID is: "+myobj.getStuID());
+
+       /*This object creation would call the parameterized
+        * constructor StudentData(int, String, int)*/
+       StudentData myobj2 = new StudentData(555, "Chaitanya", 25);
+       System.out.println("Student Name is: "+myobj2.getStuName());
+       System.out.println("Student Age is: "+myobj2.getStuAge());
+       System.out.println("Student ID is: "+myobj2.getStuID()); 
+  }
+}
+Output:
+
+Student Name is: New Student
+Student Age is: 18
+Student ID is: 100
+Student Name is: Chaitanya
+Student Age is: 25
+Student ID is: 555
+As you can see in the above example that while creating the instance myobj, default constructor (StudentData()) gets called however during the creating of myobj2, the arg-constructor (StudentDate(int, String, int)) being called.Since both the constructors are having different initialization code the variables value are different in each case as shown in the output of the program.
+
+Let’s see role of this () in constructor overloading
+
+package com.chaitu.core.day1;
+public class ConstOverloading
+{
+   private int rollNum;
+   ConstOverloading()
+   {
+      rollNum =100;
+   }
+   ConstOverloading(int rnum)
+   {
+      this();
+      /*this() is used for calling the default  
+       * constructor from parameterized constructor.
+       * It should always be the first statement 
+       * in constructor body.
+       */
+      rollNum = rollNum+ rnum;
+   }
+   public int getRollNum() {
+	  return rollNum;
+   }
+   public void setRollNum(int rollNum) {
+	  this.rollNum = rollNum;
+   }
+}
+class TestDemo{
+   public static void main(String args[])
+   {
+       ConstOverloading obj = new ConstOverloading(12);
+       System.out.println(obj.getRollNum());
+    }
+}
+Output:
+
+112
+As you can see in the above program that we called arg-constructor during object creation (ConstOverloading obj = new ConstOverloading(12);). However since we have placed the this() statement inside it, the default constructor implicitly being called from it.
+Test your skills – Guess the output of below program
+
+ package com.chaitu.core.day1;
+public class ConstOverloading
+{
+   private int rollNum;
+   ConstOverloading()
+   {
+      rollNum =100;
+   }
+   ConstOverloading(int rnum)
+   {
+      rollNum = rollNum+ rnum;
+      this();
+   }
+   public int getRollNum() {
+	  return rollNum;
+   }
+   public void setRollNum(int rollNum) {
+	  this.rollNum = rollNum;
+   }
+}
+class TestDemo{
+   public static void main(String args[])
+   {
+       ConstOverloading obj = new ConstOverloading(12);
+       System.out.println(obj.getRollNum());
+    }
+}
+Output:
+
+Exception in thread "main" java.lang.Error: Unresolved compilation 
+problem:Constructor call must be the first statement in a constructor
+Program caused a compilation error. Reason: this() should be the first statement inside a constructor.
+
+Another important point to note while overloading a constructor is: 
+
+When we don’t define any constructor, the compiler creates the default constructor(also known as no-arg constructor) by default during compilation 
+however if we have defined a parameterized constructor and didn’t define a no-arg constructor then while calling no-arg constructor the program would fail
+as in this case compiler doesn’t create a no-arg constructor.
+
+Lets see the above point with the example program:
+
+package com.chaitu.core.day1;
+public class Demo
+{
+   private int rollNum;
+   //We are not defining a no-arg constructor here
+
+   Demo(int rnum)
+   {
+      rollNum = rollNum+ rnum;
+   }
+   //Getter and Setter methods
+}
+class TestDemo{
+   public static void main(String args[])
+   {
+      //This statement would call no-arg constructor
+      Demo obj = new Demo();
+   }
+}
+Output:
+
+Exception in thread "main" java.lang.Error: Unresolved compilation 
+problem:The constructor Demo() is undefined
